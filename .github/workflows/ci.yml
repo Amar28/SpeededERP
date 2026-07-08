@@ -84,6 +84,11 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # Apps consume these packages via TypeScript project references, so their
+      # dist/*.d.ts must exist before `tsc --noEmit` can resolve them (TS6305).
+      - name: Build packages
+        run: pnpm --filter "./packages/**" -r build
+
       - name: Typecheck
         run: pnpm -r exec tsc --noEmit
 
