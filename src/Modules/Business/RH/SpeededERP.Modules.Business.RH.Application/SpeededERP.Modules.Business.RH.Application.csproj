@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpeededERP.Modules.Business.RH.Domain\SpeededERP.Modules.Business.RH.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.BuildingBlocks.Application\SpeededERP.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.BuildingBlocks.Messaging\SpeededERP.BuildingBlocks.Messaging.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/*.tsbuildinfo
+**/.turbo/
+**/.vite/
+**/coverage/
+**/playwright-report/
+**/test-results/
+.git/
+.vs/
+.vscode/
+*.user
+**/*.md
+!README.md
+frontend/**/node_modules

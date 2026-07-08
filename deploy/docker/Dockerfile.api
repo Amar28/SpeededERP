@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1
+# SpeededERP.Api — REST + GraphQL composition root (architecture section 30).
+# Build context MUST be the repository root: docker build -f deploy/docker/Dockerfile.api .
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY Directory.Build.props Directory.Packages.props global.json ./
+COPY src/ src/
+
+RUN dotnet restore src/Host/SpeededERP.Api/SpeededERP.Api.csproj
+
+RUN dotnet publish src/Host/SpeededERP.Api/SpeededERP.Api.csproj \
+    --no-restore \
+    -c Release \
+    -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && addgroup --system --gid 1000 speeded \
+    && adduser --system --uid 1000 --ingroup speeded speeded
+
+COPY --from=build /app/publish .
+
+USER speeded
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=5 \
+    CMD curl -fsS http://localhost:8080/health/live || exit 1
+
+ENTRYPOINT ["dotnet", "SpeededERP.Api.dll"]

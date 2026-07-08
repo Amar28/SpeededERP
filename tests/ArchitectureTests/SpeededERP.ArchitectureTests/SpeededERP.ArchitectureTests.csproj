@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Host\SpeededERP.Api\SpeededERP.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Identity\SpeededERP.Modules.Core.Identity.Domain\SpeededERP.Modules.Core.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Identity\SpeededERP.Modules.Core.Identity.Application\SpeededERP.Modules.Core.Identity.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Identity\SpeededERP.Modules.Core.Identity.Infrastructure\SpeededERP.Modules.Core.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Identity\SpeededERP.Modules.Core.Identity.Presentation\SpeededERP.Modules.Core.Identity.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Metadata\SpeededERP.Modules.Core.Metadata.Domain\SpeededERP.Modules.Core.Metadata.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Metadata\SpeededERP.Modules.Core.Metadata.Application\SpeededERP.Modules.Core.Metadata.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Metadata\SpeededERP.Modules.Core.Metadata.Infrastructure\SpeededERP.Modules.Core.Metadata.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Metadata\SpeededERP.Modules.Core.Metadata.Presentation\SpeededERP.Modules.Core.Metadata.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Workflow\SpeededERP.Modules.Core.Workflow.Domain\SpeededERP.Modules.Core.Workflow.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Workflow\SpeededERP.Modules.Core.Workflow.Application\SpeededERP.Modules.Core.Workflow.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Workflow\SpeededERP.Modules.Core.Workflow.Infrastructure\SpeededERP.Modules.Core.Workflow.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Workflow\SpeededERP.Modules.Core.Workflow.Presentation\SpeededERP.Modules.Core.Workflow.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Domain\SpeededERP.Modules.Core.Collaboration.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Application\SpeededERP.Modules.Core.Collaboration.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Infrastructure\SpeededERP.Modules.Core.Collaboration.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Presentation\SpeededERP.Modules.Core.Collaboration.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Documents\SpeededERP.Modules.Core.Documents.Domain\SpeededERP.Modules.Core.Documents.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Documents\SpeededERP.Modules.Core.Documents.Application\SpeededERP.Modules.Core.Documents.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Documents\SpeededERP.Modules.Core.Documents.Infrastructure\SpeededERP.Modules.Core.Documents.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Documents\SpeededERP.Modules.Core.Documents.Presentation\SpeededERP.Modules.Core.Documents.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Tasks\SpeededERP.Modules.Core.Tasks.Domain\SpeededERP.Modules.Core.Tasks.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Tasks\SpeededERP.Modules.Core.Tasks.Application\SpeededERP.Modules.Core.Tasks.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Tasks\SpeededERP.Modules.Core.Tasks.Infrastructure\SpeededERP.Modules.Core.Tasks.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Tasks\SpeededERP.Modules.Core.Tasks.Presentation\SpeededERP.Modules.Core.Tasks.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Config\SpeededERP.Modules.Core.Config.Domain\SpeededERP.Modules.Core.Config.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Config\SpeededERP.Modules.Core.Config.Application\SpeededERP.Modules.Core.Config.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Config\SpeededERP.Modules.Core.Config.Infrastructure\SpeededERP.Modules.Core.Config.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Config\SpeededERP.Modules.Core.Config.Presentation\SpeededERP.Modules.Core.Config.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\CRM\SpeededERP.Modules.Business.CRM.Domain\SpeededERP.Modules.Business.CRM.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\CRM\SpeededERP.Modules.Business.CRM.Application\SpeededERP.Modules.Business.CRM.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\CRM\SpeededERP.Modules.Business.CRM.Infrastructure\SpeededERP.Modules.Business.CRM.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\CRM\SpeededERP.Modules.Business.CRM.Presentation\SpeededERP.Modules.Business.CRM.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Comptabilite\SpeededERP.Modules.Business.Comptabilite.Domain\SpeededERP.Modules.Business.Comptabilite.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Comptabilite\SpeededERP.Modules.Business.Comptabilite.Application\SpeededERP.Modules.Business.Comptabilite.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Comptabilite\SpeededERP.Modules.Business.Comptabilite.Infrastructure\SpeededERP.Modules.Business.Comptabilite.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Comptabilite\SpeededERP.Modules.Business.Comptabilite.Presentation\SpeededERP.Modules.Business.Comptabilite.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\RH\SpeededERP.Modules.Business.RH.Domain\SpeededERP.Modules.Business.RH.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\RH\SpeededERP.Modules.Business.RH.Application\SpeededERP.Modules.Business.RH.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\RH\SpeededERP.Modules.Business.RH.Infrastructure\SpeededERP.Modules.Business.RH.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\RH\SpeededERP.Modules.Business.RH.Presentation\SpeededERP.Modules.Business.RH.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Stock\SpeededERP.Modules.Business.Stock.Domain\SpeededERP.Modules.Business.Stock.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Stock\SpeededERP.Modules.Business.Stock.Application\SpeededERP.Modules.Business.Stock.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Stock\SpeededERP.Modules.Business.Stock.Infrastructure\SpeededERP.Modules.Business.Stock.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Stock\SpeededERP.Modules.Business.Stock.Presentation\SpeededERP.Modules.Business.Stock.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Logistique\SpeededERP.Modules.Business.Logistique.Domain\SpeededERP.Modules.Business.Logistique.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Logistique\SpeededERP.Modules.Business.Logistique.Application\SpeededERP.Modules.Business.Logistique.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Logistique\SpeededERP.Modules.Business.Logistique.Infrastructure\SpeededERP.Modules.Business.Logistique.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Logistique\SpeededERP.Modules.Business.Logistique.Presentation\SpeededERP.Modules.Business.Logistique.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Immobilier\SpeededERP.Modules.Business.Immobilier.Domain\SpeededERP.Modules.Business.Immobilier.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Immobilier\SpeededERP.Modules.Business.Immobilier.Application\SpeededERP.Modules.Business.Immobilier.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Immobilier\SpeededERP.Modules.Business.Immobilier.Infrastructure\SpeededERP.Modules.Business.Immobilier.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Business\Immobilier\SpeededERP.Modules.Business.Immobilier.Presentation\SpeededERP.Modules.Business.Immobilier.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

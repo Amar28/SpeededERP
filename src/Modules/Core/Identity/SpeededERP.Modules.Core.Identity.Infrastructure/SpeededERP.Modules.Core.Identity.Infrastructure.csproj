@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpeededERP.Modules.Core.Identity.Application\SpeededERP.Modules.Core.Identity.Application.csproj" />
+    <ProjectReference Include="..\SpeededERP.Modules.Core.Identity.Domain\SpeededERP.Modules.Core.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.BuildingBlocks.Infrastructure\SpeededERP.BuildingBlocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.BuildingBlocks.Messaging\SpeededERP.BuildingBlocks.Messaging.csproj" />
+  </ItemGroup>
+
+  <!-- ASP.NET Core Identity's full API surface (AddDefaultTokenProviders, etc.) is only
+       complete against the shared framework — the standalone NuGet package alone is a
+       reduced reference surface. Infrastructure is the one layer allowed to couple to a
+       concrete framework (hexagonal architecture, section 07). -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

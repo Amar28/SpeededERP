@@ -1,0 +1,57 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: speeded-erp-dev
+
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: speeded-erp-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: speeded-erp-gateway
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: speeded-erp-api
+    patch: |-
+      - op: replace
+        path: /spec/maxReplicas
+        value: 2
+  - target:
+      kind: Ingress
+      name: speeded-erp-gateway
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: erp.dev.local
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: erp.dev.local
+      - op: remove
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1ssl-redirect
+  - target:
+      kind: ConfigMap
+      name: speeded-erp-config
+    patch: |-
+      - op: replace
+        path: /data/ASPNETCORE_ENVIRONMENT
+        value: Development
+
+images:
+  - name: speeded-erp/api
+    newTag: dev
+  - name: speeded-erp/worker
+    newTag: dev
+  - name: speeded-erp/gateway
+    newTag: dev

@@ -1,0 +1,30 @@
+# syntax=docker/dockerfile:1
+# SpeededERP.Worker — MassTransit consumers + Hangfire jobs (architecture section 30).
+# Build context MUST be the repository root: docker build -f deploy/docker/Dockerfile.worker .
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY Directory.Build.props Directory.Packages.props global.json ./
+COPY src/ src/
+
+RUN dotnet restore src/Host/SpeededERP.Worker/SpeededERP.Worker.csproj
+
+RUN dotnet publish src/Host/SpeededERP.Worker/SpeededERP.Worker.csproj \
+    --no-restore \
+    -c Release \
+    -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
+WORKDIR /app
+
+RUN addgroup --system --gid 1000 speeded && \
+    adduser --system --uid 1000 --ingroup speeded speeded
+
+COPY --from=build /app/publish .
+
+USER speeded
+ENV DOTNET_ENVIRONMENT=Production
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+
+ENTRYPOINT ["dotnet", "SpeededERP.Worker.dll"]

@@ -1,0 +1,45 @@
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SpeededERP.BuildingBlocks.Application.Outbox;
+using SpeededERP.BuildingBlocks.Domain;
+using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.Modules.Business.RH.Domain.Repositories;
+using SpeededERP.Modules.Business.RH.Infrastructure.Persistence;
+using SpeededERP.Modules.Business.RH.Infrastructure.Persistence.Repositories;
+
+namespace SpeededERP.Modules.Business.RH.Infrastructure;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddRhInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<RhDbContext>(options => options
+            .UseNpgsql(
+                configuration.GetConnectionString("RhDb") ?? configuration.GetConnectionString("Default"),
+                npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
+
+        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<RhDbContext>());
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<RhDbContext>());
+
+        services.AddScoped<IEmployeRepository, EmployeRepository>();
+
+        return services;
+    }
+
+    /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see CRM.Infrastructure for the rationale).</summary>
+    public static IServiceCollection AddRhBackgroundServices(this IServiceCollection services)
+    {
+        services.AddHostedService<OutboxProcessor<RhDbContext>>();
+
+        return services;
+    }
+
+    /// <summary>Registers the RabbitMQ consumer endpoints owned by RH — called from SpeededERP.Worker.</summary>
+    public static void ConfigureRhConsumers(this IBusRegistrationConfigurator configurator)
+    {
+        // Future: consume events relevant to HR workflows (e.g. onboarding triggers from
+        // Core.Identity) as RH starts reacting to other modules — architecture section 09.
+    }
+}

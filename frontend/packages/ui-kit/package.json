@@ -1,0 +1,37 @@
+{
+  "name": "@speedederp/ui-kit",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared MUI theme (light/dark) and reusable UI components for SpeededERP frontends.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/icons-material": "6.5.0",
+    "@mui/material": "6.5.0",
+    "@mui/x-data-grid": "7.29.13",
+    "@speedederp/core": "workspace:*",
+    "recharts": "3.9.2"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.SharedKernel\SpeededERP.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\..\..\Shared\SpeededERP.BuildingBlocks.Domain\SpeededERP.BuildingBlocks.Domain.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

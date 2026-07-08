@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: speeded-erp-config
+  namespace: speeded-erp
+data:
+  # Non-secret configuration shared by api/worker/gateway. Overlays patch the values
+  # that differ per environment (hosts, log level, feature flags) — architecture
+  # section 30: "un seul jeu d'images Docker, des overlays par cible".
+  ASPNETCORE_ENVIRONMENT: "Production"
+  MessageBroker__Host: "speeded-erp-rabbitmq"
+  MessageBroker__VirtualHost: "/"
+  ConnectionStrings__Redis: "speeded-erp-redis:6379"
+  Elasticsearch__Uri: "http://speeded-erp-elasticsearch:9200"
+  OpenTelemetry__OtlpEndpoint: "http://otel-collector.observability.svc.cluster.local:4317"
+  OpenTelemetry__ServiceName: "SpeededERP.Api"

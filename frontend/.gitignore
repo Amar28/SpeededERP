@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# Testing / coverage
+coverage/
+playwright-report/
+test-results/
+e2e/.cache/
+
+# Turbo / tooling caches
+.turbo/
+.pnpm-store/
+
+# Generated API types (regenerate via `pnpm --filter api-client generate:api-types`)
+packages/api-client/src/generated/openapi.d.ts
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/

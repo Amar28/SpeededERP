@@ -1,0 +1,51 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: speeded-erp-staging
+
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: speeded-erp-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+  - target:
+      kind: Ingress
+      name: speeded-erp-gateway
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: staging.erp.example.com
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: staging.erp.example.com
+      - op: replace
+        path: /spec/tls/0/secretName
+        value: speeded-erp-staging-tls
+  - target:
+      kind: ConfigMap
+      name: speeded-erp-config
+    patch: |-
+      - op: replace
+        path: /data/ASPNETCORE_ENVIRONMENT
+        value: Staging
+
+images:
+  - name: speeded-erp/api
+    newTag: staging
+  - name: speeded-erp/worker
+    newTag: staging
+  - name: speeded-erp/gateway
+    newTag: staging
+
+# Production/staging secrets are never sourced from base/secret.yaml — replace it with
+# your secret manager's generated resource (External Secrets Operator, Sealed Secrets,
+# or your cloud provider's CSI driver) before applying this overlay. Example, if using
+# External Secrets Operator, add an ExternalSecret resource here targeting the same
+# `speeded-erp-secrets` name and remove base's secret.yaml via a patch or a
+# `patchesStrategicMerge` delete marker.

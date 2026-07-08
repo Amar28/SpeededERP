@@ -1,0 +1,94 @@
+{
+  "app": {
+    "adminPortalName": "SpeededERP — Back Office",
+    "tenantPortalName": "SpeededERP — Customer Portal"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "clients": "Clients",
+    "forms": "Forms",
+    "logout": "Log out"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Sign in to your SpeededERP workspace",
+    "email": "Email address",
+    "password": "Password",
+    "submit": "Sign in",
+    "loading": "Signing in…",
+    "error": "Invalid credentials. Please try again."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "placeholder": "Dashboard widgets (KPIs, charts) will be configurable here.",
+    "kpi": {
+      "clients": "Registered clients",
+      "devisEnCours": "Quotes in progress",
+      "chiffreAffaires": "Revenue this month"
+    }
+  },
+  "crm": {
+    "registerClient": {
+      "title": "Register a client",
+      "name": "Company name",
+      "street": "Street address",
+      "city": "City",
+      "postalCode": "Postal code",
+      "countryIso2": "Country (ISO 3166-1 alpha-2)",
+      "phone": "Phone",
+      "submit": "Register client",
+      "success": "Client registered successfully (id: {{id}})"
+    },
+    "devis": {
+      "title": "Quote",
+      "loadTitle": "Look up a quote",
+      "devisId": "Quote ID",
+      "load": "Load",
+      "statut": "Status",
+      "devise": "Currency",
+      "montant": "Total amount",
+      "lignes": "Lines",
+      "addLigne": "Add a line",
+      "description": "Description",
+      "quantite": "Quantity",
+      "prixUnitaire": "Unit price",
+      "send": "Send quote",
+      "accept": "Accept quote",
+      "create": "Create quote",
+      "clientId": "Client ID",
+      "sent": "Quote sent.",
+      "accepted": "Quote accepted."
+    }
+  },
+  "forms": {
+    "demo": {
+      "title": "Form builder — live demo",
+      "subtitle": "This form is entirely driven by a FormDefinition + FieldDefinition[] resolved through the no-code rendering engine.",
+      "submit": "Submit",
+      "success": "Form is valid, values are ready to be sent to the API."
+    }
+  },
+  "tenant": {
+    "provision": {
+      "title": "Create your organization",
+      "subtitle": "Provision your SpeededERP workspace in seconds.",
+      "companyName": "Company name",
+      "slug": "Slug",
+      "isolationMode": "Data isolation mode",
+      "isolationModeShared": "Shared (pooled)",
+      "isolationModeDedicated": "Dedicated",
+      "isolationModeOnPremise": "On-premise (single tenant)",
+      "submit": "Create organization",
+      "success": "Organization created successfully (id: {{id}})"
+    }
+  },
+  "common": {
+    "requiredField": "This field is required",
+    "invalidNumber": "Please enter a valid number",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "noData": "No data to display"
+  }
+}

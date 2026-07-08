@@ -1,0 +1,151 @@
+name: speeded-erp
+
+# Local development stack (architecture section 30). Run from the repository root:
+#   docker compose -f deploy/docker/docker-compose.yml --env-file deploy/docker/.env up --build
+#
+# One shared PostgreSQL database, one schema per module (section 06/17 "Shared" tenant
+# isolation mode) — the default and simplest path for local dev and small tenants.
+# "Dedicated" isolation (separate DB per tenant) is a provisioning-time choice, not a
+# code fork; see the ITenantContext / Finbuckle notes in ARCHITECTURE.md.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-speeded_erp}
+      POSTGRES_USER: ${POSTGRES_USER:-speeded_erp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-speeded_erp}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+    ports:
+      - "5672:5672"
+      - "15672:15672" # management UI
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  speeded-erp-api:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.api
+    restart: unless-stopped
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    environment:
+      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-speeded_erp};Username=${POSTGRES_USER:-speeded_erp};Password=${POSTGRES_PASSWORD:-changeme}"
+      ConnectionStrings__Redis: "redis:6379"
+      MessageBroker__Host: rabbitmq
+      MessageBroker__Username: ${RABBITMQ_USER:-guest}
+      MessageBroker__Password: ${RABBITMQ_PASSWORD:-guest}
+      Elasticsearch__Uri: "http://elasticsearch:9200"
+      Cors__AllowedOrigins__0: "http://localhost:5173"
+      Cors__AllowedOrigins__1: "http://localhost:5174"
+    ports:
+      - "8080:8080"
+
+  speeded-erp-worker:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.worker
+    restart: unless-stopped
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    environment:
+      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-speeded_erp};Username=${POSTGRES_USER:-speeded_erp};Password=${POSTGRES_PASSWORD:-changeme}"
+      ConnectionStrings__Redis: "redis:6379"
+      MessageBroker__Host: rabbitmq
+      MessageBroker__Username: ${RABBITMQ_USER:-guest}
+      MessageBroker__Password: ${RABBITMQ_PASSWORD:-guest}
+
+  speeded-erp-gateway:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.gateway
+    restart: unless-stopped
+    depends_on:
+      - speeded-erp-api
+    ports:
+      - "8000:8080"
+
+  admin-portal:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.admin-portal
+      args:
+        VITE_API_BASE_URL: "http://localhost:8000"
+    restart: unless-stopped
+    depends_on:
+      - speeded-erp-gateway
+    ports:
+      - "5173:8080"
+
+  tenant-portal:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.tenant-portal
+      args:
+        VITE_API_BASE_URL: "http://localhost:8000"
+    restart: unless-stopped
+    depends_on:
+      - speeded-erp-gateway
+    ports:
+      - "5174:8080"
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  elasticsearch-data:

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: speeded-erp-gateway
+  namespace: speeded-erp
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - erp.example.com
+      secretName: speeded-erp-tls
+  rules:
+    - host: erp.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: speeded-erp-gateway
+                port:
+                  name: http

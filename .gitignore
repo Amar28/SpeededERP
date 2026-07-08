@@ -1,0 +1,60 @@
+## .NET
+bin/
+obj/
+out/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+*.dll
+*.pdb
+*.cache
+TestResults/
+coverage*.json
+coverage*.xml
+coverage*.info
+*.trx
+
+## Rider / VS / VS Code
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.DotSettings.user
+
+## Secrets & environnement
+*.env
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+secrets.json
+
+## Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+.turbo/
+.vite/
+*.local
+coverage/
+playwright-report/
+test-results/
+storybook-static/
+.pnpm-store/
+
+## Docker / K8s
+*.pem
+*.key
+!deploy/**/*.example.*
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Divers
+*.log
+.claude/

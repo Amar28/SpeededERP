@@ -1,0 +1,183 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Gateway/">
+    <Project Path="src/Gateway/SpeededERP.Gateway/SpeededERP.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/Host/">
+    <Project Path="src/Host/SpeededERP.Api/SpeededERP.Api.csproj" />
+    <Project Path="src/Host/SpeededERP.Worker/SpeededERP.Worker.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Business/" />
+  <Folder Name="/src/Modules/Business/Comptabilite/">
+    <Project Path="src/Modules/Business/Comptabilite/SpeededERP.Modules.Business.Comptabilite.Application/SpeededERP.Modules.Business.Comptabilite.Application.csproj" />
+    <Project Path="src/Modules/Business/Comptabilite/SpeededERP.Modules.Business.Comptabilite.Domain/SpeededERP.Modules.Business.Comptabilite.Domain.csproj" />
+    <Project Path="src/Modules/Business/Comptabilite/SpeededERP.Modules.Business.Comptabilite.Infrastructure/SpeededERP.Modules.Business.Comptabilite.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/Comptabilite/SpeededERP.Modules.Business.Comptabilite.Presentation/SpeededERP.Modules.Business.Comptabilite.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Business/CRM/">
+    <Project Path="src/Modules/Business/CRM/SpeededERP.Modules.Business.CRM.Application/SpeededERP.Modules.Business.CRM.Application.csproj" />
+    <Project Path="src/Modules/Business/CRM/SpeededERP.Modules.Business.CRM.Domain/SpeededERP.Modules.Business.CRM.Domain.csproj" />
+    <Project Path="src/Modules/Business/CRM/SpeededERP.Modules.Business.CRM.Infrastructure/SpeededERP.Modules.Business.CRM.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/CRM/SpeededERP.Modules.Business.CRM.Presentation/SpeededERP.Modules.Business.CRM.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Business/Immobilier/">
+    <Project Path="src/Modules/Business/Immobilier/SpeededERP.Modules.Business.Immobilier.Application/SpeededERP.Modules.Business.Immobilier.Application.csproj" />
+    <Project Path="src/Modules/Business/Immobilier/SpeededERP.Modules.Business.Immobilier.Domain/SpeededERP.Modules.Business.Immobilier.Domain.csproj" />
+    <Project Path="src/Modules/Business/Immobilier/SpeededERP.Modules.Business.Immobilier.Infrastructure/SpeededERP.Modules.Business.Immobilier.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/Immobilier/SpeededERP.Modules.Business.Immobilier.Presentation/SpeededERP.Modules.Business.Immobilier.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Business/Logistique/">
+    <Project Path="src/Modules/Business/Logistique/SpeededERP.Modules.Business.Logistique.Application/SpeededERP.Modules.Business.Logistique.Application.csproj" />
+    <Project Path="src/Modules/Business/Logistique/SpeededERP.Modules.Business.Logistique.Domain/SpeededERP.Modules.Business.Logistique.Domain.csproj" />
+    <Project Path="src/Modules/Business/Logistique/SpeededERP.Modules.Business.Logistique.Infrastructure/SpeededERP.Modules.Business.Logistique.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/Logistique/SpeededERP.Modules.Business.Logistique.Presentation/SpeededERP.Modules.Business.Logistique.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Business/RH/">
+    <Project Path="src/Modules/Business/RH/SpeededERP.Modules.Business.RH.Application/SpeededERP.Modules.Business.RH.Application.csproj" />
+    <Project Path="src/Modules/Business/RH/SpeededERP.Modules.Business.RH.Domain/SpeededERP.Modules.Business.RH.Domain.csproj" />
+    <Project Path="src/Modules/Business/RH/SpeededERP.Modules.Business.RH.Infrastructure/SpeededERP.Modules.Business.RH.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/RH/SpeededERP.Modules.Business.RH.Presentation/SpeededERP.Modules.Business.RH.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Business/Stock/">
+    <Project Path="src/Modules/Business/Stock/SpeededERP.Modules.Business.Stock.Application/SpeededERP.Modules.Business.Stock.Application.csproj" />
+    <Project Path="src/Modules/Business/Stock/SpeededERP.Modules.Business.Stock.Domain/SpeededERP.Modules.Business.Stock.Domain.csproj" />
+    <Project Path="src/Modules/Business/Stock/SpeededERP.Modules.Business.Stock.Infrastructure/SpeededERP.Modules.Business.Stock.Infrastructure.csproj" />
+    <Project Path="src/Modules/Business/Stock/SpeededERP.Modules.Business.Stock.Presentation/SpeededERP.Modules.Business.Stock.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/" />
+  <Folder Name="/src/Modules/Core/Collaboration/">
+    <Project Path="src/Modules/Core/Collaboration/SpeededERP.Modules.Core.Collaboration.Application/SpeededERP.Modules.Core.Collaboration.Application.csproj" />
+    <Project Path="src/Modules/Core/Collaboration/SpeededERP.Modules.Core.Collaboration.Domain/SpeededERP.Modules.Core.Collaboration.Domain.csproj" />
+    <Project Path="src/Modules/Core/Collaboration/SpeededERP.Modules.Core.Collaboration.Infrastructure/SpeededERP.Modules.Core.Collaboration.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Collaboration/SpeededERP.Modules.Core.Collaboration.Presentation/SpeededERP.Modules.Core.Collaboration.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Config/">
+    <Project Path="src/Modules/Core/Config/SpeededERP.Modules.Core.Config.Application/SpeededERP.Modules.Core.Config.Application.csproj" />
+    <Project Path="src/Modules/Core/Config/SpeededERP.Modules.Core.Config.Domain/SpeededERP.Modules.Core.Config.Domain.csproj" />
+    <Project Path="src/Modules/Core/Config/SpeededERP.Modules.Core.Config.Infrastructure/SpeededERP.Modules.Core.Config.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Config/SpeededERP.Modules.Core.Config.Presentation/SpeededERP.Modules.Core.Config.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Documents/">
+    <Project Path="src/Modules/Core/Documents/SpeededERP.Modules.Core.Documents.Application/SpeededERP.Modules.Core.Documents.Application.csproj" />
+    <Project Path="src/Modules/Core/Documents/SpeededERP.Modules.Core.Documents.Domain/SpeededERP.Modules.Core.Documents.Domain.csproj" />
+    <Project Path="src/Modules/Core/Documents/SpeededERP.Modules.Core.Documents.Infrastructure/SpeededERP.Modules.Core.Documents.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Documents/SpeededERP.Modules.Core.Documents.Presentation/SpeededERP.Modules.Core.Documents.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Identity/">
+    <Project Path="src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Application/SpeededERP.Modules.Core.Identity.Application.csproj" />
+    <Project Path="src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Domain/SpeededERP.Modules.Core.Identity.Domain.csproj" />
+    <Project Path="src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Infrastructure/SpeededERP.Modules.Core.Identity.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Presentation/SpeededERP.Modules.Core.Identity.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Metadata/">
+    <Project Path="src/Modules/Core/Metadata/SpeededERP.Modules.Core.Metadata.Application/SpeededERP.Modules.Core.Metadata.Application.csproj" />
+    <Project Path="src/Modules/Core/Metadata/SpeededERP.Modules.Core.Metadata.Domain/SpeededERP.Modules.Core.Metadata.Domain.csproj" />
+    <Project Path="src/Modules/Core/Metadata/SpeededERP.Modules.Core.Metadata.Infrastructure/SpeededERP.Modules.Core.Metadata.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Metadata/SpeededERP.Modules.Core.Metadata.Presentation/SpeededERP.Modules.Core.Metadata.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Tasks/">
+    <Project Path="src/Modules/Core/Tasks/SpeededERP.Modules.Core.Tasks.Application/SpeededERP.Modules.Core.Tasks.Application.csproj" />
+    <Project Path="src/Modules/Core/Tasks/SpeededERP.Modules.Core.Tasks.Domain/SpeededERP.Modules.Core.Tasks.Domain.csproj" />
+    <Project Path="src/Modules/Core/Tasks/SpeededERP.Modules.Core.Tasks.Infrastructure/SpeededERP.Modules.Core.Tasks.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Tasks/SpeededERP.Modules.Core.Tasks.Presentation/SpeededERP.Modules.Core.Tasks.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Core/Workflow/">
+    <Project Path="src/Modules/Core/Workflow/SpeededERP.Modules.Core.Workflow.Application/SpeededERP.Modules.Core.Workflow.Application.csproj" />
+    <Project Path="src/Modules/Core/Workflow/SpeededERP.Modules.Core.Workflow.Domain/SpeededERP.Modules.Core.Workflow.Domain.csproj" />
+    <Project Path="src/Modules/Core/Workflow/SpeededERP.Modules.Core.Workflow.Infrastructure/SpeededERP.Modules.Core.Workflow.Infrastructure.csproj" />
+    <Project Path="src/Modules/Core/Workflow/SpeededERP.Modules.Core.Workflow.Presentation/SpeededERP.Modules.Core.Workflow.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Shared/SpeededERP.BuildingBlocks.Application/SpeededERP.BuildingBlocks.Application.csproj" />
+    <Project Path="src/Shared/SpeededERP.BuildingBlocks.Domain/SpeededERP.BuildingBlocks.Domain.csproj" />
+    <Project Path="src/Shared/SpeededERP.BuildingBlocks.Infrastructure/SpeededERP.BuildingBlocks.Infrastructure.csproj" />
+    <Project Path="src/Shared/SpeededERP.BuildingBlocks.Messaging/SpeededERP.BuildingBlocks.Messaging.csproj" />
+    <Project Path="src/Shared/SpeededERP.BuildingBlocks.Web/SpeededERP.BuildingBlocks.Web.csproj" />
+    <Project Path="src/Shared/SpeededERP.SharedKernel/SpeededERP.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/ArchitectureTests/">
+    <Project Path="tests/ArchitectureTests/SpeededERP.ArchitectureTests/SpeededERP.ArchitectureTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/" />
+  <Folder Name="/tests/IntegrationTests/Business.Comptabilite.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.Comptabilite.IntegrationTests/SpeededERP.Modules.Business.Comptabilite.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Business.CRM.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.CRM.IntegrationTests/SpeededERP.Modules.Business.CRM.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Business.Immobilier.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.Immobilier.IntegrationTests/SpeededERP.Modules.Business.Immobilier.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Business.Logistique.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.Logistique.IntegrationTests/SpeededERP.Modules.Business.Logistique.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Business.RH.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.RH.IntegrationTests/SpeededERP.Modules.Business.RH.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Business.Stock.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Business.Stock.IntegrationTests/SpeededERP.Modules.Business.Stock.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Collaboration.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Collaboration.IntegrationTests/SpeededERP.Modules.Core.Collaboration.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Config.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Config.IntegrationTests/SpeededERP.Modules.Core.Config.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Documents.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Documents.IntegrationTests/SpeededERP.Modules.Core.Documents.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Identity.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Identity.IntegrationTests/SpeededERP.Modules.Core.Identity.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Metadata.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Metadata.IntegrationTests/SpeededERP.Modules.Core.Metadata.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Tasks.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Tasks.IntegrationTests/SpeededERP.Modules.Core.Tasks.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/IntegrationTests/Core.Workflow.IntegrationTests/">
+    <Project Path="tests/IntegrationTests/Core.Workflow.IntegrationTests/SpeededERP.Modules.Core.Workflow.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/" />
+  <Folder Name="/tests/UnitTests/Business.Comptabilite.UnitTests/">
+    <Project Path="tests/UnitTests/Business.Comptabilite.UnitTests/SpeededERP.Modules.Business.Comptabilite.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Business.CRM.UnitTests/">
+    <Project Path="tests/UnitTests/Business.CRM.UnitTests/SpeededERP.Modules.Business.CRM.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Business.Immobilier.UnitTests/">
+    <Project Path="tests/UnitTests/Business.Immobilier.UnitTests/SpeededERP.Modules.Business.Immobilier.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Business.Logistique.UnitTests/">
+    <Project Path="tests/UnitTests/Business.Logistique.UnitTests/SpeededERP.Modules.Business.Logistique.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Business.RH.UnitTests/">
+    <Project Path="tests/UnitTests/Business.RH.UnitTests/SpeededERP.Modules.Business.RH.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Business.Stock.UnitTests/">
+    <Project Path="tests/UnitTests/Business.Stock.UnitTests/SpeededERP.Modules.Business.Stock.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Collaboration.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Collaboration.UnitTests/SpeededERP.Modules.Core.Collaboration.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Config.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Config.UnitTests/SpeededERP.Modules.Core.Config.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Documents.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Documents.UnitTests/SpeededERP.Modules.Core.Documents.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Identity.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Identity.UnitTests/SpeededERP.Modules.Core.Identity.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Metadata.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Metadata.UnitTests/SpeededERP.Modules.Core.Metadata.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Tasks.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Tasks.UnitTests/SpeededERP.Modules.Core.Tasks.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/UnitTests/Core.Workflow.UnitTests/">
+    <Project Path="tests/UnitTests/Core.Workflow.UnitTests/SpeededERP.Modules.Core.Workflow.UnitTests.csproj" />
+  </Folder>
+</Solution>

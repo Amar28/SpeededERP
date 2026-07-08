@@ -1,0 +1,57 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- NU1902/NU1903: NuGet vulnerability advisories stay visible as warnings but
+         don't fail the build — the advisory database changes daily and pinning every
+         transitive package to whatever is "patched" this week is a losing battle;
+         the team reviews these deliberately instead (see README security notes). -->
+    <WarningsNotAsErrors>CS1591;NU1902;NU1903</WarningsNotAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Company>SpeededERP</Company>
+    <Product>SpeededERP</Product>
+    <Authors>SpeededERP</Authors>
+    <NeutralLanguage>fr-FR</NeutralLanguage>
+    <IsPackable>false</IsPackable>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Couche Domain : aucune dépendance externe (hors Ardalis.GuardClauses) — voir section 31 de l'architecture -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Domain'))">
+    <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Presentation-layer classlibs need the ASP.NET Core shared framework (Minimal API,
+       routing, GraphQL over HTTP) without becoming an executable Sdk.Web project. -->
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Presentation')) OR $(MSBuildProjectName) == 'SpeededERP.BuildingBlocks.Web'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <!-- Mirrors the implicit usings Microsoft.NET.Sdk.Web injects for executable web
+         projects — these are plain classlibs, so they don't get them for free. -->
+    <Using Include="Microsoft.AspNetCore.Builder" />
+    <Using Include="Microsoft.AspNetCore.Hosting" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <Using Include="Microsoft.AspNetCore.Routing" />
+    <Using Include="Microsoft.Extensions.Configuration" />
+    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <!-- Test hosts need to execute, not just compile. Production images pin the exact
+         net8.0 runtime (see deploy/docker); a dev machine that only has a newer major
+         installed can still run the test suite by rolling forward. -->
+    <RollForward>LatestMajor</RollForward>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speeded-erp-worker
+  namespace: speeded-erp
+  labels:
+    app.kubernetes.io/name: speeded-erp-worker
+    app.kubernetes.io/part-of: speeded-erp
+spec:
+  # Exactly one process consumes each queue (see architecture note in
+  # BuildingBlocks.Infrastructure/Outbox/OutboxProcessor.cs and Worker's
+  # DependencyInjection split) — scale with care, MassTransit competing consumers
+  # handle >1 replica safely, but the Outbox poll interval assumes a small fleet.
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: speeded-erp-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: speeded-erp-worker
+        app.kubernetes.io/part-of: speeded-erp
+    spec:
+      containers:
+        - name: worker
+          image: speeded-erp/worker:latest
+          envFrom:
+            - configMapRef:
+                name: speeded-erp-config
+            - secretRef:
+                name: speeded-erp-secrets
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000

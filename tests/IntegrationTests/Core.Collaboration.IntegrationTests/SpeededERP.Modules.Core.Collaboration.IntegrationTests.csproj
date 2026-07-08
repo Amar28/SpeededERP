@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="Respawn" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Infrastructure\SpeededERP.Modules.Core.Collaboration.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Core\Collaboration\SpeededERP.Modules.Core.Collaboration.Presentation\SpeededERP.Modules.Core.Collaboration.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

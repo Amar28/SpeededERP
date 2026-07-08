@@ -1,0 +1,43 @@
+{
+  "name": "speedederp-frontend",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "SpeededERP frontend monorepo (admin-portal, tenant-portal, shared packages).",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "packageManager": "pnpm@11.10.0",
+  "scripts": {
+    "dev:admin": "pnpm --filter admin-portal dev",
+    "dev:tenant": "pnpm --filter tenant-portal dev",
+    "build": "pnpm -r --filter=./packages/* --filter=./apps/* build",
+    "typecheck": "pnpm -r exec tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test --config=e2e/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.4",
+    "@playwright/test": "1.61.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "24.13.3",
+    "eslint": "9.39.4",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
+    "globals": "17.7.0",
+    "jsdom": "29.1.1",
+    "prettier": "3.9.4",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.63.0",
+    "vitest": "4.1.10"
+  }
+}

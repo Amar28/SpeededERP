@@ -1,0 +1,94 @@
+{
+  "app": {
+    "adminPortalName": "SpeededERP — Back-office",
+    "tenantPortalName": "SpeededERP — Espace client"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "clients": "Clients",
+    "forms": "Formulaires",
+    "logout": "Déconnexion"
+  },
+  "login": {
+    "title": "Connexion",
+    "subtitle": "Connectez-vous à votre espace SpeededERP",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "loading": "Connexion en cours…",
+    "error": "Identifiants invalides. Veuillez réessayer."
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "placeholder": "Les widgets de tableau de bord (KPI, graphiques) seront configurables ici.",
+    "kpi": {
+      "clients": "Clients enregistrés",
+      "devisEnCours": "Devis en cours",
+      "chiffreAffaires": "Chiffre d'affaires du mois"
+    }
+  },
+  "crm": {
+    "registerClient": {
+      "title": "Enregistrer un client",
+      "name": "Raison sociale",
+      "street": "Adresse",
+      "city": "Ville",
+      "postalCode": "Code postal",
+      "countryIso2": "Pays (ISO 3166-1 alpha-2)",
+      "phone": "Téléphone",
+      "submit": "Enregistrer le client",
+      "success": "Client enregistré avec succès (id : {{id}})"
+    },
+    "devis": {
+      "title": "Devis",
+      "loadTitle": "Consulter un devis",
+      "devisId": "Identifiant du devis",
+      "load": "Charger",
+      "statut": "Statut",
+      "devise": "Devise",
+      "montant": "Montant total",
+      "lignes": "Lignes",
+      "addLigne": "Ajouter une ligne",
+      "description": "Description",
+      "quantite": "Quantité",
+      "prixUnitaire": "Prix unitaire",
+      "send": "Envoyer le devis",
+      "accept": "Accepter le devis",
+      "create": "Créer un devis",
+      "clientId": "Identifiant client",
+      "sent": "Devis envoyé.",
+      "accepted": "Devis accepté."
+    }
+  },
+  "forms": {
+    "demo": {
+      "title": "Générateur de formulaires — démonstration",
+      "subtitle": "Ce formulaire est entièrement piloté par une FormDefinition + FieldDefinition[] restituée par le moteur de rendu no-code.",
+      "submit": "Valider",
+      "success": "Formulaire valide, valeurs prêtes à être envoyées à l'API."
+    }
+  },
+  "tenant": {
+    "provision": {
+      "title": "Créer votre organisation",
+      "subtitle": "Provisionnez votre espace SpeededERP en quelques secondes.",
+      "companyName": "Nom de l'entreprise",
+      "slug": "Identifiant (slug)",
+      "isolationMode": "Mode d'isolation des données",
+      "isolationModeShared": "Partagé (mutualisé)",
+      "isolationModeDedicated": "Dédié",
+      "isolationModeOnPremise": "Sur site (mono-tenant)",
+      "submit": "Créer l'organisation",
+      "success": "Organisation créée avec succès (id : {{id}})"
+    }
+  },
+  "common": {
+    "requiredField": "Ce champ est obligatoire",
+    "invalidNumber": "Veuillez saisir un nombre valide",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue",
+    "noData": "Aucune donnée à afficher"
+  }
+}

@@ -1,0 +1,72 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# On-Premise target on Linux via Docker/K8s (architecture section 30, Fig. 04 legend).
+# A single, static tenant (section 17 "OnPremiseSingleTenant"): fixed replica counts,
+# no autoscaling, internal ingress class, dedicated database.
+# NOTE: the Windows Server On-Premise path described in the same section (Kestrel +
+# IIS reverse proxy, or a Windows Service) does not go through Kubernetes at all —
+# this overlay only covers the Linux/K8s On-Premise case.
+namespace: speeded-erp-onprem
+
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: speeded-erp-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: speeded-erp-gateway
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: speeded-erp-api
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 1
+      - op: replace
+        path: /spec/maxReplicas
+        value: 3
+  - target:
+      kind: Ingress
+      name: speeded-erp-gateway
+    patch: |-
+      - op: replace
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1ssl-redirect
+        value: "false"
+      - op: replace
+        path: /spec/ingressClassName
+        value: internal
+      - op: replace
+        path: /spec/rules/0/host
+        value: erp.local
+      - op: remove
+        path: /spec/tls
+  - target:
+      kind: ConfigMap
+      name: speeded-erp-config
+    patch: |-
+      - op: replace
+        path: /data/ASPNETCORE_ENVIRONMENT
+        value: Production
+      - op: add
+        path: /data/MultiTenancy__DefaultIsolationMode
+        value: OnPremiseSingleTenant
+
+images:
+  - name: speeded-erp/api
+    newTag: latest
+  - name: speeded-erp/worker
+    newTag: latest
+  - name: speeded-erp/gateway
+    newTag: latest
