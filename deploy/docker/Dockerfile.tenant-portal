@@ -2,7 +2,7 @@
 # SpeededERP tenant-portal — SaaS onboarding SPA (architecture section 06).
 # Build context MUST be the repository root: docker build -f deploy/docker/Dockerfile.tenant-portal .
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /src
 
 RUN corepack enable && corepack prepare pnpm@11.10.0 --activate
