@@ -35,20 +35,24 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Unit tests
-        run: >
-          dotnet test --no-build -c Release
-          --filter "FullyQualifiedName!~IntegrationTests"
-          $(git ls-files 'tests/UnitTests/**/*.csproj' 'tests/ArchitectureTests/**/*.csproj')
-          --logger "trx" --results-directory ./test-results
+        run: |
+          set -euo pipefail
+          for proj in $(git ls-files 'tests/UnitTests/**/*.csproj' 'tests/ArchitectureTests/**/*.csproj'); do
+            dotnet test --no-build -c Release "$proj" \
+              --filter "FullyQualifiedName!~IntegrationTests" \
+              --logger "trx" --results-directory ./test-results
+          done
 
       # Modules are scaffolded with the Testcontainers harness wired but no integration
       # test bodies yet (see tests/IntegrationTests/README.md). continue-on-error stays
       # on until a module adds its first real integration test.
       - name: Integration tests (Testcontainers — requires Docker, provided by the runner)
-        run: >
-          dotnet test --no-build -c Release
-          $(git ls-files 'tests/IntegrationTests/**/*.csproj')
-          --logger "trx" --results-directory ./test-results
+        run: |
+          set -euo pipefail
+          for proj in $(git ls-files 'tests/IntegrationTests/**/*.csproj'); do
+            dotnet test --no-build -c Release "$proj" \
+              --logger "trx" --results-directory ./test-results
+          done
         continue-on-error: true
 
       - name: Publish test results
