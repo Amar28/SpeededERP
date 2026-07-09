@@ -23,6 +23,7 @@ export async function login(
 ): Promise<TokenResponse> {
   const body = new URLSearchParams({
     grant_type: 'password',
+    client_id: 'speeded-erp-spa',
     username,
     password,
     scope: 'openid profile email offline_access speeded_erp_api',
@@ -47,7 +48,11 @@ export async function login(
 }
 
 export async function refreshToken(config: ApiClientConfig, refresh_token: string): Promise<TokenResponse> {
-  const body = new URLSearchParams({ grant_type: 'refresh_token', refresh_token });
+  const body = new URLSearchParams({
+    grant_type: 'refresh_token',
+    client_id: 'speeded-erp-spa',
+    refresh_token,
+  });
   const url = config.baseUrl.endsWith('/') ? `${config.baseUrl}connect/token` : `${config.baseUrl}/connect/token`;
 
   const response = await fetch(url, {
