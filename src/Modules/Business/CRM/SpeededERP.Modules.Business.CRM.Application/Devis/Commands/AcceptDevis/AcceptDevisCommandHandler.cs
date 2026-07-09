@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.CRM.Application.IntegrationEvents;
@@ -14,7 +15,10 @@ namespace SpeededERP.Modules.Business.CRM.Application.Devis.Commands.AcceptDevis
 /// stable <see cref="DevisAcceptedIntegrationEvent"/> contract through the Outbox in the
 /// very same unit of work as the aggregate update.
 /// </summary>
-public sealed class AcceptDevisCommandHandler(IDevisRepository repository, IUnitOfWork unitOfWork, IOutboxWriter outboxWriter)
+public sealed class AcceptDevisCommandHandler(
+    IDevisRepository repository,
+    [FromKeyedServices("crm")] IUnitOfWork unitOfWork,
+    [FromKeyedServices("crm")] IOutboxWriter outboxWriter)
     : IRequestHandler<AcceptDevisCommand, Result>
 {
     public async Task<Result> Handle(AcceptDevisCommand request, CancellationToken cancellationToken)

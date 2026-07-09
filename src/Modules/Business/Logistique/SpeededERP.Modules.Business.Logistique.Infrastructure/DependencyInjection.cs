@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Logistique.Domain.Repositories;
 using SpeededERP.Modules.Business.Logistique.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Logistique.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("LogistiqueDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<LogistiqueDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<LogistiqueDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("logistique", (sp, _) => sp.GetRequiredService<LogistiqueDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("logistique", (sp, _) => sp.GetRequiredService<LogistiqueDbContext>());
 
         services.AddScoped<IExpeditionRepository, ExpeditionRepository>();
 
@@ -31,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see Core.Identity.Infrastructure.DependencyInjection for the rationale).</summary>
     public static IServiceCollection AddLogistiqueBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<LogistiqueDbContext>>();
         services.AddHostedService<OutboxProcessor<LogistiqueDbContext>>();
 
         return services;

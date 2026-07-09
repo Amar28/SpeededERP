@@ -1,0 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace SpeededERP.Modules.Core.Workflow.Infrastructure.Persistence;
+
+/// <summary>
+/// Lets `dotnet ef migrations add` build this module's DbContext directly, without
+/// spinning up SpeededERP.Api's full ASP.NET Core host as --startup-project (which
+/// requires the exact ASP.NET Core shared framework the design-time tool was built
+/// against). Design-time only — never used at runtime, where DependencyInjection.cs's
+/// AddDbContext wires the real connection string from configuration.
+/// </summary>
+public sealed class WorkflowDbContextFactory : IDesignTimeDbContextFactory<WorkflowDbContext>
+{
+    public WorkflowDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<WorkflowDbContext>();
+        optionsBuilder.UseNpgsql(
+            "Host=localhost;Port=5432;Database=speeded_erp;Username=speeded_erp;Password=changeme",
+            npgsql => npgsql.MigrationsAssembly(typeof(WorkflowDbContextFactory).Assembly.FullName));
+
+        return new WorkflowDbContext(optionsBuilder.Options);
+    }
+}

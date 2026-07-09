@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Stock.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Stock.Application.Produits.Commands.ReapprovisionnerProduit;
 
-public sealed class ReapprovisionnerCommandHandler(IProduitRepository repository, IUnitOfWork unitOfWork)
+public sealed class ReapprovisionnerCommandHandler(IProduitRepository repository, [FromKeyedServices("stock")] IUnitOfWork unitOfWork)
     : IRequestHandler<ReapprovisionnerCommand, Result>
 {
     public async Task<Result> Handle(ReapprovisionnerCommand request, CancellationToken cancellationToken)

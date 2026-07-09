@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Stock.Domain.Repositories;
 using SpeededERP.Modules.Business.Stock.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Stock.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("StockDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<StockDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<StockDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("stock", (sp, _) => sp.GetRequiredService<StockDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("stock", (sp, _) => sp.GetRequiredService<StockDbContext>());
 
         services.AddScoped<IProduitRepository, ProduitRepository>();
 
@@ -31,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see Core.Identity.Infrastructure.DependencyInjection for the rationale).</summary>
     public static IServiceCollection AddStockBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<StockDbContext>>();
         services.AddHostedService<OutboxProcessor<StockDbContext>>();
 
         return services;

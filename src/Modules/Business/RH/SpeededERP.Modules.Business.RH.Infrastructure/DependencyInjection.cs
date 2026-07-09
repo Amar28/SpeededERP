@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.RH.Domain.Repositories;
 using SpeededERP.Modules.Business.RH.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.RH.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("RhDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<RhDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<RhDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("rh", (sp, _) => sp.GetRequiredService<RhDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("rh", (sp, _) => sp.GetRequiredService<RhDbContext>());
 
         services.AddScoped<IEmployeRepository, EmployeRepository>();
 
@@ -31,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see CRM.Infrastructure for the rationale).</summary>
     public static IServiceCollection AddRhBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<RhDbContext>>();
         services.AddHostedService<OutboxProcessor<RhDbContext>>();
 
         return services;

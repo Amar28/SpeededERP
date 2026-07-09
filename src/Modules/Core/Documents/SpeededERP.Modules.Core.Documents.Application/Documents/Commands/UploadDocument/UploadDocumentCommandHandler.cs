@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Documents.Domain.Aggregates.Documents;
 using SpeededERP.Modules.Core.Documents.Domain.Repositories;
@@ -6,7 +7,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Documents.Application.Documents.Commands.UploadDocument;
 
-public sealed class UploadDocumentCommandHandler(IDocumentRepository repository, IUnitOfWork unitOfWork)
+public sealed class UploadDocumentCommandHandler(IDocumentRepository repository, [FromKeyedServices("documents")] IUnitOfWork unitOfWork)
     : IRequestHandler<UploadDocumentCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(UploadDocumentCommand request, CancellationToken cancellationToken)

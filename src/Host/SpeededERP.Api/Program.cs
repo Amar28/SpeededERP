@@ -2,6 +2,7 @@ using Microsoft.FeatureManagement;
 using Serilog;
 using SpeededERP.Api.Composition;
 using SpeededERP.BuildingBlocks.Application;
+using SpeededERP.BuildingBlocks.Infrastructure.Caching;
 using SpeededERP.BuildingBlocks.Web;
 using SpeededERP.BuildingBlocks.Web.Modules;
 using SpeededERP.Modules.Core.Identity.Infrastructure.Startup;
@@ -13,6 +14,7 @@ builder.UseSpeededErpSerilog();
 // ---- Cross-cutting building blocks ----------------------------------------------
 builder.Services.AddSpeededErpWebCore();
 builder.Services.AddSpeededErpApplicationBehaviors();
+builder.Services.AddSpeededErpDistributedCache(builder.Configuration);
 builder.Services.AddSpeededErpObservability(builder.Configuration);
 builder.Services.AddSpeededErpHealthChecks(builder.Configuration);
 builder.Services.AddSpeededErpApiVersioning();

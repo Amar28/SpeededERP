@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Identity.Domain.Repositories;
 using SpeededERP.SharedKernel;
@@ -8,7 +9,7 @@ namespace SpeededERP.Modules.Core.Identity.Application.Users.Commands.AssignRole
 public sealed class AssignRoleCommandHandler(
     IUserRepository userRepository,
     IRoleRepository roleRepository,
-    IUnitOfWork unitOfWork)
+    [FromKeyedServices("identity")] IUnitOfWork unitOfWork)
     : IRequestHandler<AssignRoleCommand, Result>
 {
     public async Task<Result> Handle(AssignRoleCommand request, CancellationToken cancellationToken)

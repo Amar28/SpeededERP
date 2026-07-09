@@ -30,8 +30,13 @@ public static class DependencyInjection
             options.UseOpenIddict();
         });
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<IdentityModuleDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IdentityModuleDbContext>());
+        // Keyed by schema (IdentityModuleDbContext.Schema): IUnitOfWork/IOutboxWriter
+        // are shared, non-generic interfaces registered by every module in the same
+        // container (Host.Api loads all of them via ModuleCatalog) — a plain
+        // AddScoped<IUnitOfWork>(...) would have the last-registered module silently
+        // win for every handler in every other module. See architecture section 06.
+        services.AddKeyedScoped<IOutboxWriter>(IdentityModuleDbContext.Schema, (sp, _) => sp.GetRequiredService<IdentityModuleDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>(IdentityModuleDbContext.Schema, (sp, _) => sp.GetRequiredService<IdentityModuleDbContext>());
 
         services
             .AddIdentityCore<ApplicationUser>(options =>

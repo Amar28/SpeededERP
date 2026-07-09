@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Logistique.Domain.Aggregates.Expeditions;
 using SpeededERP.Modules.Business.Logistique.Domain.Repositories;
@@ -7,7 +8,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Logistique.Application.Expeditions.Commands.PreparerExpedition;
 
-public sealed class PreparerExpeditionCommandHandler(IExpeditionRepository repository, IUnitOfWork unitOfWork)
+public sealed class PreparerExpeditionCommandHandler(IExpeditionRepository repository, [FromKeyedServices("logistique")] IUnitOfWork unitOfWork)
     : IRequestHandler<PreparerExpeditionCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(PreparerExpeditionCommand request, CancellationToken cancellationToken)

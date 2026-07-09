@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Config.Domain.Repositories;
 using SpeededERP.Modules.Core.Config.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Config.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("ConfigDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<ConfigDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ConfigDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("config", (sp, _) => sp.GetRequiredService<ConfigDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("config", (sp, _) => sp.GetRequiredService<ConfigDbContext>());
 
         services.AddScoped<ITenantSettingsRepository, TenantSettingsRepository>();
 
@@ -34,6 +37,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddConfigBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<ConfigDbContext>>();
         services.AddHostedService<OutboxProcessor<ConfigDbContext>>();
 
         return services;

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Metadata.Domain.Aggregates.FieldDefinitions;
@@ -10,7 +11,7 @@ namespace SpeededERP.Modules.Core.Metadata.Application.FieldDefinitions.Commands
 public sealed class AddFieldDefinitionCommandHandler(
     IEntityDefinitionRepository entityDefinitionRepository,
     IFieldDefinitionRepository fieldDefinitionRepository,
-    IUnitOfWork unitOfWork,
+    [FromKeyedServices("metadata")] IUnitOfWork unitOfWork,
     ITenantContext tenantContext)
     : IRequestHandler<AddFieldDefinitionCommand, Result<Guid>>
 {

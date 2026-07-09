@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Identity.Application.IntegrationEvents;
@@ -10,8 +11,8 @@ namespace SpeededERP.Modules.Core.Identity.Application.Tenants.Commands.Provisio
 
 public sealed class ProvisionTenantCommandHandler(
     ITenantRepository tenantRepository,
-    IUnitOfWork unitOfWork,
-    IOutboxWriter outboxWriter)
+    [FromKeyedServices("identity")] IUnitOfWork unitOfWork,
+    [FromKeyedServices("identity")] IOutboxWriter outboxWriter)
     : IRequestHandler<ProvisionTenantCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(ProvisionTenantCommand request, CancellationToken cancellationToken)

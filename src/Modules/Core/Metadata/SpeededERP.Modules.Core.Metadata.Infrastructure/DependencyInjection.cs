@@ -6,6 +6,7 @@ using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Application.Validation;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Metadata.Application.Validation;
 using SpeededERP.Modules.Core.Metadata.Domain.Repositories;
 using SpeededERP.Modules.Core.Metadata.Infrastructure.Messaging;
@@ -24,8 +25,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("MetadataDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<MetadataDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MetadataDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("metadata", (sp, _) => sp.GetRequiredService<MetadataDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("metadata", (sp, _) => sp.GetRequiredService<MetadataDbContext>());
 
         services.AddScoped<IEntityDefinitionRepository, EntityDefinitionRepository>();
         services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository>();
@@ -43,6 +46,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddMetadataBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<MetadataDbContext>>();
         services.AddHostedService<OutboxProcessor<MetadataDbContext>>();
 
         return services;

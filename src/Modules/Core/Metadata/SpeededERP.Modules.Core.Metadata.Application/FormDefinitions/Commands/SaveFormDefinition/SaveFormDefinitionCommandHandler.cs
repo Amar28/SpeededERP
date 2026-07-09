@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Metadata.Domain.Aggregates.FormDefinitions;
 using SpeededERP.Modules.Core.Metadata.Domain.Repositories;
@@ -6,7 +7,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Metadata.Application.FormDefinitions.Commands.SaveFormDefinition;
 
-public sealed class SaveFormDefinitionCommandHandler(IFormDefinitionRepository repository, IUnitOfWork unitOfWork)
+public sealed class SaveFormDefinitionCommandHandler(IFormDefinitionRepository repository, [FromKeyedServices("metadata")] IUnitOfWork unitOfWork)
     : IRequestHandler<SaveFormDefinitionCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(SaveFormDefinitionCommand request, CancellationToken cancellationToken)

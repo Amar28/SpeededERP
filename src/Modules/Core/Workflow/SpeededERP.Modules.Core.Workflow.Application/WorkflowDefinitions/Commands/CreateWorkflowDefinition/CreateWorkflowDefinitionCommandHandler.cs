@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Workflow.Domain.Aggregates.WorkflowDefinitions;
 using SpeededERP.Modules.Core.Workflow.Domain.Repositories;
@@ -6,7 +7,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Workflow.Application.WorkflowDefinitions.Commands.CreateWorkflowDefinition;
 
-public sealed class CreateWorkflowDefinitionCommandHandler(IWorkflowDefinitionRepository repository, IUnitOfWork unitOfWork)
+public sealed class CreateWorkflowDefinitionCommandHandler(IWorkflowDefinitionRepository repository, [FromKeyedServices("workflow")] IUnitOfWork unitOfWork)
     : IRequestHandler<CreateWorkflowDefinitionCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateWorkflowDefinitionCommand request, CancellationToken cancellationToken)

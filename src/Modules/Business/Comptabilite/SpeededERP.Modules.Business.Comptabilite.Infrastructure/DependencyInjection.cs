@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Comptabilite.Domain.Repositories;
 using SpeededERP.Modules.Business.Comptabilite.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Comptabilite.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("ComptabiliteDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<ComptabiliteDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ComptabiliteDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("comptabilite", (sp, _) => sp.GetRequiredService<ComptabiliteDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("comptabilite", (sp, _) => sp.GetRequiredService<ComptabiliteDbContext>());
 
         services.AddScoped<IFactureRepository, FactureRepository>();
 
@@ -31,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see CRM.Infrastructure for the rationale).</summary>
     public static IServiceCollection AddComptabiliteBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<ComptabiliteDbContext>>();
         services.AddHostedService<OutboxProcessor<ComptabiliteDbContext>>();
 
         return services;

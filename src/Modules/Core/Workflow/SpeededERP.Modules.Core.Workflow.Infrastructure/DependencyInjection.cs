@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Workflow.Domain.Repositories;
 using SpeededERP.Modules.Core.Workflow.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Workflow.Infrastructure.Persistence.Repositories;
@@ -20,8 +21,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("WorkflowDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<WorkflowDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WorkflowDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("workflow", (sp, _) => sp.GetRequiredService<WorkflowDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("workflow", (sp, _) => sp.GetRequiredService<WorkflowDbContext>());
 
         services.AddScoped<IWorkflowDefinitionRepository, WorkflowDefinitionRepository>();
 
@@ -34,6 +37,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddWorkflowBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<WorkflowDbContext>>();
         services.AddHostedService<OutboxProcessor<WorkflowDbContext>>();
 
         return services;

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Stock.Domain.Aggregates.Produits;
@@ -7,7 +8,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Stock.Application.Produits.Commands.CreerProduit;
 
-public sealed class CreerProduitCommandHandler(IProduitRepository repository, IUnitOfWork unitOfWork, ITenantContext tenantContext)
+public sealed class CreerProduitCommandHandler(IProduitRepository repository, [FromKeyedServices("stock")] IUnitOfWork unitOfWork, ITenantContext tenantContext)
     : IRequestHandler<CreerProduitCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreerProduitCommand request, CancellationToken cancellationToken)

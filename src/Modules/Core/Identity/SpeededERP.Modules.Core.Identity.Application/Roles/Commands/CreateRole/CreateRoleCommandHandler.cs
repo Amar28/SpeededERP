@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Identity.Domain.Aggregates.Roles;
 using SpeededERP.Modules.Core.Identity.Domain.Repositories;
@@ -7,7 +8,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Identity.Application.Roles.Commands.CreateRole;
 
-public sealed class CreateRoleCommandHandler(IRoleRepository roleRepository, IUnitOfWork unitOfWork)
+public sealed class CreateRoleCommandHandler(IRoleRepository roleRepository, [FromKeyedServices("identity")] IUnitOfWork unitOfWork)
     : IRequestHandler<CreateRoleCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)

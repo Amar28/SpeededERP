@@ -1,5 +1,6 @@
 using System.Text.Json;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Application.Validation;
 using SpeededERP.BuildingBlocks.Domain;
@@ -12,7 +13,7 @@ namespace SpeededERP.Modules.Business.CRM.Application.Clients.Commands.RegisterC
 
 public sealed class RegisterClientCommandHandler(
     IClientRepository repository,
-    IUnitOfWork unitOfWork,
+    [FromKeyedServices("crm")] IUnitOfWork unitOfWork,
     ICustomFieldsValidator customFieldsValidator,
     ITenantContext tenantContext)
     : IRequestHandler<RegisterClientCommand, Result<Guid>>

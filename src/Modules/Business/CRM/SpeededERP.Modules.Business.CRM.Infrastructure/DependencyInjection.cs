@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.CRM.Application.Ports;
 using SpeededERP.Modules.Business.CRM.Domain.Repositories;
 using SpeededERP.Modules.Business.CRM.Infrastructure.Email;
@@ -23,8 +24,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("CrmDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<CrmDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<CrmDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("crm", (sp, _) => sp.GetRequiredService<CrmDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("crm", (sp, _) => sp.GetRequiredService<CrmDbContext>());
 
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IDevisRepository, DevisRepository>();
@@ -43,6 +46,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddCrmBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<CrmDbContext>>();
         services.AddHostedService<OutboxProcessor<CrmDbContext>>();
         services.AddHostedService<EntityDefinitionSeeder>();
 
