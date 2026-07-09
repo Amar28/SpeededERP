@@ -122,8 +122,8 @@ Frontend :
 cd frontend
 pnpm install
 pnpm -r build      # build initial des packages partagés (core, ui-kit, form-engine, api-client)
-pnpm --filter admin-portal dev    # http://localhost:5173
-pnpm --filter tenant-portal dev   # http://localhost:5174
+pnpm --filter admin-portal dev    # http://localhost:5175
+pnpm --filter tenant-portal dev   # http://localhost:5176
 ```
 
 Les apps front s'attendent à trouver l'API/gateway sur `http://localhost:8000`
@@ -153,6 +153,36 @@ kubectl apply -k deploy/k8s/overlays/dev
 Overlays disponibles : `dev`, `staging`, `prod`, `saas`, `onprem` (voir
 [ARCHITECTURE.md](ARCHITECTURE.md) pour la différence entre modes d'isolation multi-tenant).
 
+### Configuration — certificat de signature OpenIddict
+
+`OpenIddictServerRegistration` ([src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Presentation/Auth/OpenIddictServerRegistration.cs](src/Modules/Core/Identity/SpeededERP.Modules.Core.Identity.Presentation/Auth/OpenIddictServerRegistration.cs))
+choisit sa stratégie de clés selon `IHostEnvironment` :
+
+- **Development** : clés de signature/chiffrement éphémères (RSA en mémoire, régénérées à
+  chaque démarrage) — aucune configuration requise. Les jetons émis ne survivent pas à un
+  redémarrage, ce qui est sans conséquence en local.
+- **Tout autre environnement (Staging, Production, ...)** : un certificat X.509 persistant est
+  **obligatoire**, chargé depuis la section de configuration
+  `Authentication:OpenIddict:SigningCertificate` (même certificat utilisé pour la signature et le
+  chiffrement) :
+
+  | Clé | Description |
+  |---|---|
+  | `Authentication:OpenIddict:SigningCertificate:Path` | Chemin vers un fichier `.pfx`/`.p12`. |
+  | `Authentication:OpenIddict:SigningCertificate:Password` | Mot de passe du fichier PFX — **à fournir via un secret** (Kubernetes Secret, variable d'environnement, user-secrets en local), jamais en clair dans `appsettings.json`. |
+  | `Authentication:OpenIddict:SigningCertificate:Thumbprint` | Alternative à `Path`/`Password` : empreinte d'un certificat déjà présent dans un magasin de certificats de la machine. |
+  | `Authentication:OpenIddict:SigningCertificate:StoreName` / `StoreLocation` | Utilisés uniquement avec `Thumbprint` (défauts : `My` / `CurrentUser`). |
+
+  En notation variable d'environnement (`__` remplace `:`) :
+  `Authentication__OpenIddict__SigningCertificate__Path`,
+  `Authentication__OpenIddict__SigningCertificate__Password`,
+  `Authentication__OpenIddict__SigningCertificate__Thumbprint` — voir
+  `deploy/k8s/base/secret.yaml` (template, jamais de vraie valeur committée).
+
+  Si aucun `Path` ni `Thumbprint` n'est configuré en dehors de Development, le démarrage échoue
+  immédiatement avec une exception explicite plutôt que de basculer silencieusement sur des clés
+  éphémères en production.
+
 ## Bonnes pratiques appliquées
 
 - **Clean Architecture / DDD** : chaque module expose Domain → Application → Infrastructure →
@@ -165,9 +195,10 @@ Overlays disponibles : `dev`, `staging`, `prod`, `saas`, `onprem` (voir
   métier — voir `AcceptDevisCommandHandler` comme référence).
 - **No-code** : le moteur de règles (`Core.Metadata`) est déclaratif (JsonLogic) — aucune
   exécution de code arbitraire côté serveur.
-- **Sécurité** : OpenIddict avec clés éphémères en conteneur (pas de certificat persistant dans
-  le home directory), permissions par rôle/tenant, CORS explicite, secrets jamais commités
-  (voir `deploy/k8s/base/secret.yaml` — template uniquement).
+- **Sécurité** : OpenIddict avec clés éphémères en Development, certificat X.509 persistant
+  obligatoire ailleurs (voir "Configuration — certificat de signature OpenIddict" ci-dessus),
+  permissions par rôle/tenant, CORS explicite, secrets jamais commités (voir
+  `deploy/k8s/base/secret.yaml` — template uniquement).
 - **Observabilité** : Serilog + OpenTelemetry (traces/métriques), health checks par service.
 - **Documentation** : OpenAPI généré par l'API, ce README, [ARCHITECTURE.md](ARCHITECTURE.md).
 - **CI/CD** : [.github/workflows/ci.yml](.github/workflows/ci.yml) (build/test backend et
