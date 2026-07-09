@@ -23,8 +23,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("CrmDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<CrmDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<CrmDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("crm", (sp, _) => sp.GetRequiredService<CrmDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("crm", (sp, _) => sp.GetRequiredService<CrmDbContext>());
 
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IDevisRepository, DevisRepository>();

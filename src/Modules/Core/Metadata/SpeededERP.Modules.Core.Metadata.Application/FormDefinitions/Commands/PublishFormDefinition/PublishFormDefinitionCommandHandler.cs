@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Metadata.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Metadata.Application.FormDefinitions.Commands.PublishFormDefinition;
 
-public sealed class PublishFormDefinitionCommandHandler(IFormDefinitionRepository repository, IUnitOfWork unitOfWork)
+public sealed class PublishFormDefinitionCommandHandler(IFormDefinitionRepository repository, [FromKeyedServices("metadata")] IUnitOfWork unitOfWork)
     : IRequestHandler<PublishFormDefinitionCommand, Result>
 {
     public async Task<Result> Handle(PublishFormDefinitionCommand request, CancellationToken cancellationToken)

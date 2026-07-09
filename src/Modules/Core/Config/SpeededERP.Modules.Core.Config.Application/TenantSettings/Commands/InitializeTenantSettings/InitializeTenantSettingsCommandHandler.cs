@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Config.Domain.Repositories;
 using SpeededERP.SharedKernel;
@@ -6,7 +7,7 @@ using TenantSettingsAggregate = SpeededERP.Modules.Core.Config.Domain.Aggregates
 
 namespace SpeededERP.Modules.Core.Config.Application.TenantSettings.Commands.InitializeTenantSettings;
 
-public sealed class InitializeTenantSettingsCommandHandler(ITenantSettingsRepository repository, IUnitOfWork unitOfWork)
+public sealed class InitializeTenantSettingsCommandHandler(ITenantSettingsRepository repository, [FromKeyedServices("config")] IUnitOfWork unitOfWork)
     : IRequestHandler<InitializeTenantSettingsCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(InitializeTenantSettingsCommand request, CancellationToken cancellationToken)

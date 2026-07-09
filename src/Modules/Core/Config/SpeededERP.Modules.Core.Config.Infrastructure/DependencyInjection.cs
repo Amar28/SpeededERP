@@ -20,8 +20,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("ConfigDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<ConfigDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ConfigDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("config", (sp, _) => sp.GetRequiredService<ConfigDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("config", (sp, _) => sp.GetRequiredService<ConfigDbContext>());
 
         services.AddScoped<ITenantSettingsRepository, TenantSettingsRepository>();
 

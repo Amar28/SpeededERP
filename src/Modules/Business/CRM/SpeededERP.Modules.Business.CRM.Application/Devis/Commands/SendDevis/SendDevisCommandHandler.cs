@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.CRM.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.CRM.Application.Devis.Commands.SendDevis;
 
-public sealed class SendDevisCommandHandler(IDevisRepository repository, IUnitOfWork unitOfWork)
+public sealed class SendDevisCommandHandler(IDevisRepository repository, [FromKeyedServices("crm")] IUnitOfWork unitOfWork)
     : IRequestHandler<SendDevisCommand, Result>
 {
     public async Task<Result> Handle(SendDevisCommand request, CancellationToken cancellationToken)

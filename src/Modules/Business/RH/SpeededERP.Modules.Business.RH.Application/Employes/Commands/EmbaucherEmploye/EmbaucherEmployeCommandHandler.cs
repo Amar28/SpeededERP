@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.RH.Domain.Aggregates.Employes;
 using SpeededERP.Modules.Business.RH.Domain.Repositories;
@@ -6,7 +7,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.RH.Application.Employes.Commands.EmbaucherEmploye;
 
-public sealed class EmbaucherEmployeCommandHandler(IEmployeRepository repository, IUnitOfWork unitOfWork)
+public sealed class EmbaucherEmployeCommandHandler(IEmployeRepository repository, [FromKeyedServices("rh")] IUnitOfWork unitOfWork)
     : IRequestHandler<EmbaucherEmployeCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(EmbaucherEmployeCommand request, CancellationToken cancellationToken)

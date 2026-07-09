@@ -22,8 +22,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DocumentsDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<DocumentsDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<DocumentsDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("documents", (sp, _) => sp.GetRequiredService<DocumentsDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("documents", (sp, _) => sp.GetRequiredService<DocumentsDbContext>());
 
         services.AddScoped<IDocumentRepository, DocumentRepository>();
         services.AddSingleton<IBlobStorage, LocalFileSystemBlobStorage>();

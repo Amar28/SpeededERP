@@ -20,8 +20,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("RhDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<RhDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<RhDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("rh", (sp, _) => sp.GetRequiredService<RhDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("rh", (sp, _) => sp.GetRequiredService<RhDbContext>());
 
         services.AddScoped<IEmployeRepository, EmployeRepository>();
 

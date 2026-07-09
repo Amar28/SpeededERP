@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Comptabilite.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Comptabilite.Application.Factures.Commands.EmettreFacture;
 
-public sealed class EmettreFactureCommandHandler(IFactureRepository repository, IUnitOfWork unitOfWork)
+public sealed class EmettreFactureCommandHandler(IFactureRepository repository, [FromKeyedServices("comptabilite")] IUnitOfWork unitOfWork)
     : IRequestHandler<EmettreFactureCommand, Result>
 {
     public async Task<Result> Handle(EmettreFactureCommand request, CancellationToken cancellationToken)

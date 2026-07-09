@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Metadata.Domain.Aggregates.EntityDefinitions;
 using SpeededERP.Modules.Core.Metadata.Domain.Repositories;
@@ -6,7 +7,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Metadata.Application.EntityDefinitions.Commands.UpsertEntityDefinition;
 
-public sealed class UpsertEntityDefinitionCommandHandler(IEntityDefinitionRepository repository, IUnitOfWork unitOfWork)
+public sealed class UpsertEntityDefinitionCommandHandler(IEntityDefinitionRepository repository, [FromKeyedServices("metadata")] IUnitOfWork unitOfWork)
     : IRequestHandler<UpsertEntityDefinitionCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(UpsertEntityDefinitionCommand request, CancellationToken cancellationToken)

@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Immobilier.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Immobilier.Application.Biens.Commands.MettreEnLocation;
 
-public sealed class MettreEnLocationCommandHandler(IBienRepository repository, IUnitOfWork unitOfWork)
+public sealed class MettreEnLocationCommandHandler(IBienRepository repository, [FromKeyedServices("immobilier")] IUnitOfWork unitOfWork)
     : IRequestHandler<MettreEnLocationCommand, Result>
 {
     public async Task<Result> Handle(MettreEnLocationCommand request, CancellationToken cancellationToken)

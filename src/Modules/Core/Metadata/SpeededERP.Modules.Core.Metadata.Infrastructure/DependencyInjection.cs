@@ -24,8 +24,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("MetadataDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<MetadataDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MetadataDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("metadata", (sp, _) => sp.GetRequiredService<MetadataDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("metadata", (sp, _) => sp.GetRequiredService<MetadataDbContext>());
 
         services.AddScoped<IEntityDefinitionRepository, EntityDefinitionRepository>();
         services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository>();

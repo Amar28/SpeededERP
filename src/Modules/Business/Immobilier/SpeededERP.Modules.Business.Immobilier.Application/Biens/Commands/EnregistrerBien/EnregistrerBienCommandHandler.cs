@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.Immobilier.Domain.Aggregates.Biens;
 using SpeededERP.Modules.Business.Immobilier.Domain.Repositories;
@@ -7,7 +8,7 @@ using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Business.Immobilier.Application.Biens.Commands.EnregistrerBien;
 
-public sealed class EnregistrerBienCommandHandler(IBienRepository repository, IUnitOfWork unitOfWork)
+public sealed class EnregistrerBienCommandHandler(IBienRepository repository, [FromKeyedServices("immobilier")] IUnitOfWork unitOfWork)
     : IRequestHandler<EnregistrerBienCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(EnregistrerBienCommand request, CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Tasks.Domain.Repositories;
 using SpeededERP.SharedKernel;
@@ -6,7 +7,7 @@ using TaskItemAggregate = SpeededERP.Modules.Core.Tasks.Domain.Aggregates.TaskIt
 
 namespace SpeededERP.Modules.Core.Tasks.Application.TaskItems.Commands.CreateTask;
 
-public sealed class CreateTaskCommandHandler(ITaskItemRepository repository, IUnitOfWork unitOfWork)
+public sealed class CreateTaskCommandHandler(ITaskItemRepository repository, [FromKeyedServices("tasks")] IUnitOfWork unitOfWork)
     : IRequestHandler<CreateTaskCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)

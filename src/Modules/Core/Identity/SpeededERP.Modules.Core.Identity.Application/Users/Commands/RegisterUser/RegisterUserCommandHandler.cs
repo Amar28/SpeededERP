@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Domain;
@@ -13,8 +14,8 @@ namespace SpeededERP.Modules.Core.Identity.Application.Users.Commands.RegisterUs
 public sealed class RegisterUserCommandHandler(
     IUserRepository userRepository,
     IUserCredentialStore credentialStore,
-    IUnitOfWork unitOfWork,
-    IOutboxWriter outboxWriter,
+    [FromKeyedServices("identity")] IUnitOfWork unitOfWork,
+    [FromKeyedServices("identity")] IOutboxWriter outboxWriter,
     ITenantContext tenantContext)
     : IRequestHandler<RegisterUserCommand, Result<Guid>>
 {

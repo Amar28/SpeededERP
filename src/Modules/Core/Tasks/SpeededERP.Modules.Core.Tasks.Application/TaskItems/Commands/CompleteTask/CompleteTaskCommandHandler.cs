@@ -1,11 +1,12 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Core.Tasks.Domain.Repositories;
 using SpeededERP.SharedKernel;
 
 namespace SpeededERP.Modules.Core.Tasks.Application.TaskItems.Commands.CompleteTask;
 
-public sealed class CompleteTaskCommandHandler(ITaskItemRepository repository, IUnitOfWork unitOfWork)
+public sealed class CompleteTaskCommandHandler(ITaskItemRepository repository, [FromKeyedServices("tasks")] IUnitOfWork unitOfWork)
     : IRequestHandler<CompleteTaskCommand, Result>
 {
     public async Task<Result> Handle(CompleteTaskCommand request, CancellationToken cancellationToken)

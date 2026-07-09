@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.Modules.Business.CRM.Domain.Repositories;
 using SpeededERP.SharedKernel;
@@ -6,7 +7,7 @@ using DevisAggregate = SpeededERP.Modules.Business.CRM.Domain.Aggregates.Devis.D
 
 namespace SpeededERP.Modules.Business.CRM.Application.Devis.Commands.CreateDevis;
 
-public sealed class CreateDevisCommandHandler(IDevisRepository repository, IClientRepository clientRepository, IUnitOfWork unitOfWork)
+public sealed class CreateDevisCommandHandler(IDevisRepository repository, IClientRepository clientRepository, [FromKeyedServices("crm")] IUnitOfWork unitOfWork)
     : IRequestHandler<CreateDevisCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateDevisCommand request, CancellationToken cancellationToken)

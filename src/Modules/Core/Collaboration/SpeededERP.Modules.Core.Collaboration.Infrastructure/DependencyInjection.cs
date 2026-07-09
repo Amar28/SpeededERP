@@ -20,8 +20,10 @@ public static class DependencyInjection
                 configuration.GetConnectionString("CollaborationDb") ?? configuration.GetConnectionString("Default"),
                 npgsql => npgsql.MigrationsAssembly(typeof(DependencyInjection).Assembly.FullName)));
 
-        services.AddScoped<IOutboxWriter>(sp => sp.GetRequiredService<CollaborationDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<CollaborationDbContext>());
+        // Keyed by schema — see Core.Identity.Infrastructure.DependencyInjection for
+        // why IUnitOfWork/IOutboxWriter can't be plain AddScoped here.
+        services.AddKeyedScoped<IOutboxWriter>("collaboration", (sp, _) => sp.GetRequiredService<CollaborationDbContext>());
+        services.AddKeyedScoped<IUnitOfWork>("collaboration", (sp, _) => sp.GetRequiredService<CollaborationDbContext>());
 
         services.AddScoped<ICommentRepository, CommentRepository>();
 
