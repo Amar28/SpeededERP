@@ -4,6 +4,7 @@ using SpeededERP.Api.Composition;
 using SpeededERP.BuildingBlocks.Application;
 using SpeededERP.BuildingBlocks.Web;
 using SpeededERP.BuildingBlocks.Web.Modules;
+using SpeededERP.Modules.Core.Identity.Infrastructure.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,15 @@ builder.Services.AddModules(builder.Configuration, modules);
 
 var moduleAssemblies = modules.Select(m => m.GetType().Assembly);
 builder.Services.AddSpeededErpGraphQl(moduleAssemblies);
+
+// Dev-only bootstrap: no other way exists yet to obtain a first authenticated
+// account (see DevAdminSeeder). Registered here rather than from Worker's
+// AddIdentityBackgroundServices because Api's DI graph (MediatR, ITenantContext,
+// DataProtection) is fully wired via AddModules, unlike Worker's.
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHostedService<DevAdminSeeder>();
+}
 
 var app = builder.Build();
 

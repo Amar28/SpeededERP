@@ -35,13 +35,14 @@ public static class OpenIddictServerRegistration
                 options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
 
                 var certificatePath = configuration["Auth:SigningCertificatePath"];
-                if (!string.IsNullOrWhiteSpace(certificatePath))
+                var hasCertificate = !string.IsNullOrWhiteSpace(certificatePath);
+                if (hasCertificate)
                 {
                     options.AddSigningCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(
-                        certificatePath,
+                        certificatePath!,
                         configuration["Auth:SigningCertificatePassword"]));
                     options.AddEncryptionCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(
-                        certificatePath,
+                        certificatePath!,
                         configuration["Auth:SigningCertificatePassword"]));
                 }
                 else
@@ -56,11 +57,19 @@ public static class OpenIddictServerRegistration
                     options.AddEphemeralEncryptionKey();
                 }
 
-                options.UseAspNetCore()
+                var aspNetCoreBuilder = options.UseAspNetCore()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
                     .EnableUserinfoEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
+
+                if (!hasCertificate)
+                {
+                    // No certificate configured means this is the same local dev/CI
+                    // deployment as the ephemeral-keys branch above, where every hop
+                    // (gateway, portals) runs over plain HTTP — never for staging/prod.
+                    aspNetCoreBuilder.DisableTransportSecurityRequirement();
+                }
             })
             .AddValidation(options =>
             {
