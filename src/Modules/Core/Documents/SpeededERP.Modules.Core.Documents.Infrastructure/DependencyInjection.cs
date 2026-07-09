@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Documents.Application.Ports;
 using SpeededERP.Modules.Core.Documents.Domain.Repositories;
 using SpeededERP.Modules.Core.Documents.Infrastructure.Persistence;
@@ -39,6 +40,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddDocumentsBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<DocumentsDbContext>>();
         services.AddHostedService<OutboxProcessor<DocumentsDbContext>>();
 
         return services;

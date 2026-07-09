@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Tasks.Domain.Repositories;
 using SpeededERP.Modules.Core.Tasks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Tasks.Infrastructure.Persistence.Repositories;
@@ -36,6 +37,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddTasksBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<TasksDbContext>>();
         services.AddHostedService<OutboxProcessor<TasksDbContext>>();
 
         return services;

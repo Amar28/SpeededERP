@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Stock.Domain.Repositories;
 using SpeededERP.Modules.Business.Stock.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Stock.Infrastructure.Persistence.Repositories;
@@ -33,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see Core.Identity.Infrastructure.DependencyInjection for the rationale).</summary>
     public static IServiceCollection AddStockBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<StockDbContext>>();
         services.AddHostedService<OutboxProcessor<StockDbContext>>();
 
         return services;

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.CRM.Application.Ports;
 using SpeededERP.Modules.Business.CRM.Domain.Repositories;
 using SpeededERP.Modules.Business.CRM.Infrastructure.Email;
@@ -45,6 +46,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddCrmBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<CrmDbContext>>();
         services.AddHostedService<OutboxProcessor<CrmDbContext>>();
         services.AddHostedService<EntityDefinitionSeeder>();
 

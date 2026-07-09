@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Workflow.Domain.Repositories;
 using SpeededERP.Modules.Core.Workflow.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Workflow.Infrastructure.Persistence.Repositories;
@@ -36,6 +37,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddWorkflowBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<WorkflowDbContext>>();
         services.AddHostedService<OutboxProcessor<WorkflowDbContext>>();
 
         return services;

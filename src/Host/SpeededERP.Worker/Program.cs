@@ -3,6 +3,7 @@ using Hangfire.PostgreSql;
 using MassTransit;
 using Serilog;
 using SpeededERP.BuildingBlocks.Application;
+using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Infrastructure.Caching;
 using SpeededERP.Worker.Composition;
 
@@ -18,6 +19,8 @@ builder.Services.AddSerilog((services, configuration) => configuration
 // ---- Cross-cutting building blocks ----------------------------------------------
 builder.Services.AddSpeededErpApplicationBehaviors();
 builder.Services.AddSpeededErpDistributedCache(builder.Configuration);
+builder.Services.AddSingleton<ICurrentUserContext, SystemCurrentUserContext>();
+builder.Services.AddSingleton<ITenantContext, SystemTenantContext>();
 
 // ---- Every module's DbContext/repositories + Outbox publisher + seeders ----------
 builder.Services.AddAllModulesInfrastructure(builder.Configuration);

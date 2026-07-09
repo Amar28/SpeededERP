@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Immobilier.Domain.Repositories;
 using SpeededERP.Modules.Business.Immobilier.Infrastructure.Persistence;
 using SpeededERP.Modules.Business.Immobilier.Infrastructure.Persistence.Repositories;
@@ -33,6 +34,7 @@ public static class DependencyInjection
     /// <summary>Hosted services — called only from SpeededERP.Worker's Program.cs (see Core.Identity.Infrastructure.DependencyInjection for the rationale).</summary>
     public static IServiceCollection AddImmobilierBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<ImmobilierDbContext>>();
         services.AddHostedService<OutboxProcessor<ImmobilierDbContext>>();
 
         return services;

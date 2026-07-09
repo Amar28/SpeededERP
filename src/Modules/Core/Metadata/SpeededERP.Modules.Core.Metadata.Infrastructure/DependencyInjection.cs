@@ -6,6 +6,7 @@ using SpeededERP.BuildingBlocks.Application.Outbox;
 using SpeededERP.BuildingBlocks.Application.Validation;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
+using SpeededERP.BuildingBlocks.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Metadata.Application.Validation;
 using SpeededERP.Modules.Core.Metadata.Domain.Repositories;
 using SpeededERP.Modules.Core.Metadata.Infrastructure.Messaging;
@@ -45,6 +46,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddMetadataBackgroundServices(this IServiceCollection services)
     {
+        services.AddHostedService<MigrationRunner<MetadataDbContext>>();
         services.AddHostedService<OutboxProcessor<MetadataDbContext>>();
 
         return services;
