@@ -9,4 +9,7 @@ public interface IUserRepository : IRepository<User, Guid>
     Task<User?> GetByEmailAsync(EmailAddress email, Guid tenantId, CancellationToken cancellationToken = default);
 
     Task<bool> ExistsWithEmailAsync(EmailAddress email, Guid tenantId, CancellationToken cancellationToken = default);
+
+    /// <summary>Used to decide whether a newly registering user is the tenant's first — see RegisterUserCommandHandler.</summary>
+    Task<bool> AnyForTenantAsync(Guid tenantId, CancellationToken cancellationToken = default);
 }

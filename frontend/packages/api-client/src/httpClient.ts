@@ -34,6 +34,8 @@ export interface ApiClientConfig {
 export interface RequestOptions {
   query?: Record<string, string | number | boolean | undefined>;
   signal?: AbortSignal;
+  /** Extra request headers — e.g. X-Tenant-Slug for pre-authentication endpoints. */
+  headers?: Record<string, string>;
 }
 
 function buildUrl(baseUrl: string, path: string, query?: RequestOptions['query']): string {
@@ -56,7 +58,7 @@ function buildUrl(baseUrl: string, path: string, query?: RequestOptions['query']
 export class ApiClient {
   constructor(private readonly config: ApiClientConfig) {}
 
-  buildHeaders(hasBody: boolean): Headers {
+  buildHeaders(hasBody: boolean, extraHeaders?: Record<string, string>): Headers {
     const headers = new Headers();
     if (hasBody) {
       headers.set('Content-Type', 'application/json');
@@ -66,6 +68,12 @@ export class ApiClient {
     const token = this.config.getAccessToken?.();
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (extraHeaders) {
+      for (const [key, value] of Object.entries(extraHeaders)) {
+        headers.set(key, value);
+      }
     }
 
     return headers;
@@ -83,7 +91,7 @@ export class ApiClient {
   ): Promise<TResponse> {
     const response = await fetch(this.buildUrl(path, options), {
       method,
-      headers: this.buildHeaders(body !== undefined),
+      headers: this.buildHeaders(body !== undefined, options?.headers),
       body: body !== undefined ? JSON.stringify(body) : undefined,
       signal: options?.signal,
     });

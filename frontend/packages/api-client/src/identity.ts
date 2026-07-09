@@ -40,8 +40,15 @@ export class IdentityClient {
     return this.http.get<UserDto>(`/api/v1/identity/users/${userId}`);
   }
 
-  registerUser(request: RegisterUserRequest): Promise<{ id: string }> {
-    return this.http.post<{ id: string }>('/api/v1/identity/users', request);
+  /**
+   * `tenantSlug` sets X-Tenant-Slug so TenantResolutionMiddleware can resolve a
+   * tenant for this anonymous call — required when registering a brand-new tenant's
+   * first user, who has no JWT yet to carry a tenant_id claim.
+   */
+  registerUser(request: RegisterUserRequest, tenantSlug?: string): Promise<{ id: string }> {
+    return this.http.post<{ id: string }>('/api/v1/identity/users', request, {
+      headers: tenantSlug ? { 'X-Tenant-Slug': tenantSlug } : undefined,
+    });
   }
 
   assignRole(userId: string, roleId: string): Promise<void> {

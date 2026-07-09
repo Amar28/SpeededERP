@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.EntityFrameworkCore;
 using SpeededERP.BuildingBlocks.Application.Outbox;
+using SpeededERP.BuildingBlocks.Application.Security;
 using SpeededERP.BuildingBlocks.Domain;
 using SpeededERP.BuildingBlocks.Infrastructure.Outbox;
 using SpeededERP.Modules.Core.Identity.Application.Users;
@@ -12,6 +13,7 @@ using SpeededERP.Modules.Core.Identity.Domain.Repositories;
 using SpeededERP.Modules.Core.Identity.Infrastructure.Identity;
 using SpeededERP.Modules.Core.Identity.Infrastructure.Persistence;
 using SpeededERP.Modules.Core.Identity.Infrastructure.Persistence.Repositories;
+using SpeededERP.Modules.Core.Identity.Infrastructure.Security;
 
 namespace SpeededERP.Modules.Core.Identity.Infrastructure;
 
@@ -57,6 +59,7 @@ public static class DependencyInjection
         services.AddScoped<ITenantRepository, TenantRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserCredentialStore, UserCredentialStore>();
+        services.AddScoped<ITenantSlugResolver, TenantSlugResolver>();
 
         return services;
     }
