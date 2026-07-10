@@ -80,6 +80,17 @@
       "isolationModeOnPremise": "On-premise (single tenant)",
       "submit": "Create organization",
       "success": "Organization created successfully (id: {{id}})"
+    },
+    "registerAdmin": {
+      "title": "Create your admin account",
+      "subtitle": "You're the first member of {{companyName}} — this account becomes your organization's administrator.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Create admin account",
+      "success": "Admin account created — sign in at the Admin Portal with your new credentials.",
+      "backToPortal": "Go to Admin Portal"
     }
   },
   "common": {

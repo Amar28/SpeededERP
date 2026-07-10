@@ -18,6 +18,9 @@ public sealed class UserRepository(IdentityModuleDbContext dbContext) : IUserRep
     public Task<bool> ExistsWithEmailAsync(EmailAddress email, Guid tenantId, CancellationToken cancellationToken = default) =>
         dbContext.BusinessUsers.AnyAsync(u => u.Email == email && u.TenantId == tenantId, cancellationToken);
 
+    public Task<bool> AnyForTenantAsync(Guid tenantId, CancellationToken cancellationToken = default) =>
+        dbContext.BusinessUsers.AnyAsync(u => u.TenantId == tenantId, cancellationToken);
+
     public void Add(User aggregate) => dbContext.BusinessUsers.Add(aggregate);
 
     public void Update(User aggregate) => dbContext.BusinessUsers.Update(aggregate);

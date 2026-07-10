@@ -80,6 +80,17 @@
       "isolationModeOnPremise": "Sur site (mono-tenant)",
       "submit": "Créer l'organisation",
       "success": "Organisation créée avec succès (id : {{id}})"
+    },
+    "registerAdmin": {
+      "title": "Créez votre compte administrateur",
+      "subtitle": "Vous êtes le premier membre de {{companyName}} — ce compte devient l'administrateur de votre organisation.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Créer le compte administrateur",
+      "success": "Compte administrateur créé — connectez-vous sur le portail d'administration avec vos nouveaux identifiants.",
+      "backToPortal": "Aller au portail d'administration"
     }
   },
   "common": {

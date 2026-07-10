@@ -5,6 +5,7 @@ using SpeededERP.BuildingBlocks.Application;
 using SpeededERP.BuildingBlocks.Infrastructure.Caching;
 using SpeededERP.BuildingBlocks.Web;
 using SpeededERP.BuildingBlocks.Web.Modules;
+using SpeededERP.BuildingBlocks.Web.Security;
 using SpeededERP.Modules.Core.Identity.Infrastructure.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,6 +57,7 @@ else
 }
 
 app.UseCors();
+app.UseSpeededErpTenantResolution();
 app.UseAuthentication();
 app.UseAuthorization();
 
