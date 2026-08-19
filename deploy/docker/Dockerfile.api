@@ -2,7 +2,7 @@
 # SpeededERP.Api — REST + GraphQL composition root (architecture section 30).
 # Build context MUST be the repository root: docker build -f deploy/docker/Dockerfile.api .
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY Directory.Build.props Directory.Packages.props global.json ./
